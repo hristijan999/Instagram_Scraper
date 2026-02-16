@@ -10,46 +10,39 @@ import time
 import requests
 import random
 
-# === Setup Firefox options and service ===
 options = Options()
-options.add_argument('--headless')
-options.binary_location = r"C:\Program Files\Mozilla Firefox\firefox.exe"  # Firefox path
-service = Service(r"C:\Program Files\geckodriver.exe")  # Your geckodriver.exe path
+# options.add_argument('--headless')
+options.binary_location = r"C:\Program Files\Mozilla Firefox\firefox.exe"
 
-driver = webdriver.Firefox(service=service, options=options)
+# The Service object is no longer needed; Selenium will manage the driver automatically.
+driver = webdriver.Firefox(options=options)
 driver.maximize_window()
 driver.get("https://www.instagram.com/")
 
-wait = WebDriverWait(driver, 20)
+wait = WebDriverWait(driver, 30)
+
 
 # === Login ===
 username_input = wait.until(EC.visibility_of_element_located((By.NAME, "username")))
 username_input.send_keys("hristijan.kolevski")
 
 password_input = wait.until(EC.visibility_of_element_located((By.NAME, "password")))
-password_input.send_keys("Defakto0999999!")
+password_input.send_keys("Defakto09999999999!")
 
 # === Open Instagram ===
 
+# after clicking the login button, add a short randomized pause and wait for the top nav to appear
 login_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@type='submit']")))
 login_button.click()
-
-# === Handle "Not now" popup (save login info) ===
-try:
-    not_now_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(),'Not Now')]")))
-    not_now_button.click()
-except:
-    pass  # Popup didn't show up, continue
-
+time.sleep(20)
 # === Go to profile ===
-profile_link = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[contains(@href, '/hristijan.kolevski/')]")))
-profile_link.click()
+driver.get("https://www.instagram.com/hristijan.kolevski/following/")
 
-# === Click followers ===
+time.sleep(20)
+
 followers_link = wait.until(EC.element_to_be_clickable((By.XPATH, "//a[contains(@href, '/followers/')]")))
-
 driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", followers_link)
-
+time.sleep(20)
 
 try:
     # Try normal click first

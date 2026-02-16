@@ -1,7 +1,5 @@
-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.ui import WebDriverWait
@@ -21,11 +19,11 @@ import pandas as pd
 
 
 options = Options()
-options.add_argument('--headless')
+# options.add_argument('--headless')
 options.binary_location = r"C:\Program Files\Mozilla Firefox\firefox.exe"
-service = Service(r"C:\Program Files\geckodriver.exe")
 
-driver = webdriver.Firefox(service=service, options=options)
+# The Service object is no longer needed; Selenium will manage the driver automatically.
+driver = webdriver.Firefox(options=options)
 driver.maximize_window()
 driver.get("https://www.instagram.com/")
 
@@ -36,7 +34,7 @@ username_input = wait.until(EC.visibility_of_element_located((By.NAME, "username
 username_input.send_keys("hristijan.kolevski")
 
 password_input = wait.until(EC.visibility_of_element_located((By.NAME, "password")))
-password_input.send_keys("Defakto0999999!")
+password_input.send_keys("Defakto09999999999!")
 
 
 
